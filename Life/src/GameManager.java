@@ -105,7 +105,7 @@ public class GameManager {
 
             System.out.println("Press enter to continue; type anything to quit.");
             input = reader.nextLine();
-            if (input.isEmpty()) next = false;
+            if (!input.isEmpty()) next = false;
         }
 
         reader.close();
