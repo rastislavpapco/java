@@ -1,21 +1,22 @@
-import com.sun.xml.internal.bind.v2.TODO;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * Game manager that takes care of the whole running of the game.
+ * SIZE is the length of the edges of a square board (SIZE x SIZE).
+ * board represents the game board containing all the cells (and empty space - NONE).
+ *
  * author Rastislav Papčo
  */
 public class GameManager {
     private final int SIZE = 10;
-    private ArrayList<ArrayList<CellType>> board;
+    private ArrayList<ArrayList<CellType>> board = Generator.generateBoard(SIZE);
 
-    public GameManager() {
-        board = Generator.generateBoard(SIZE);
-    }
-
+    /**
+     * @param i Row of the cell.
+     * @param j Column of the cell.
+     * @return Number of living neighbour cells of the cell.
+     */
     private int countLivingNeighbours(int i, int j) {
         int alive = 0;
 
@@ -32,6 +33,12 @@ public class GameManager {
         return alive;
     }
 
+
+    /**
+     * @param cell Cell that the rules will be applied to.
+     * @param alive Number of living neighbour cells.
+     * @return New cell based on the rules.
+     */
     private CellType applyRulesToCell(CellType cell, int alive) {
 
         if ((cell == CellType.ALIVE && (alive == 2 || alive == 3)) ||
@@ -40,6 +47,9 @@ public class GameManager {
         return CellType.DEAD;
     }
 
+    /**
+     * Generate next state of the board from the current one, based on rules.
+     */
     private void nextGeneration() {
         ArrayList<ArrayList<CellType>> newBoard = new ArrayList<>();
 
@@ -64,6 +74,9 @@ public class GameManager {
         board = newBoard;
     }
 
+    /**
+     * Print the current state of board.
+     */
     private void printBoard() {
         char symbol;
         for (ArrayList<CellType> row : board) {
@@ -77,6 +90,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * Main loop that simulates the game.
+     */
     public void play() {
         boolean next = true;
         String input;
@@ -87,9 +103,8 @@ public class GameManager {
             nextGeneration();
             System.out.println();
 
-            System.out.println("User input reading:");
+            System.out.println("Press enter to continue; type anything to quit.");
             input = reader.nextLine();
-            System.out.println("User input read:");
             if (input.isEmpty()) next = false;
         }
 

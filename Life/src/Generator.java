@@ -6,6 +6,10 @@ import java.util.Random;
  */
 public class Generator {
 
+    /**
+     * @param size Size of the square board (size x size).
+     * @return Randomly generated board.
+     */
     public static ArrayList<ArrayList<CellType>> generateBoard(int size) {
         ArrayList<ArrayList<CellType>> board = new ArrayList<>();
         Random rand = new Random();
