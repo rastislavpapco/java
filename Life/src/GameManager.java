@@ -22,7 +22,7 @@ public class GameManager {
 
         for (int x = i - 1; x < i + 2; x++) {
             for (int y = j - 1; y < j + 2; y++) {
-                if (x != i && y != j && 0 <= x && x < SIZE && 0 <= y && y < SIZE) {
+                if ((x != i || y != j) && 0 <= x && x < SIZE && 0 <= y && y < SIZE) {
                     if (board.get(x).get(y) == CellType.ALIVE) {
                         alive++;
                     }
@@ -52,16 +52,19 @@ public class GameManager {
      */
     private void nextGeneration() {
         ArrayList<ArrayList<CellType>> newBoard = new ArrayList<>();
+        CellType cell;
+        CellType newCell;
+        int alive;
 
         for (int i = 0; i < SIZE; i++) {
             ArrayList<CellType> newRow = new ArrayList<>();
 
             for (int j = 0; j < SIZE; j++) {
-                CellType cell = board.get(i).get(j);
-                CellType newCell = CellType.NONE;
+                cell = board.get(i).get(j);
+                newCell = CellType.NONE;
 
                 if (cell != CellType.NONE) {
-                    int alive = countLivingNeighbours(i, j);
+                    alive = countLivingNeighbours(i, j);
                     newCell = applyRulesToCell(cell, alive);
                 }
 
@@ -79,6 +82,7 @@ public class GameManager {
      */
     private void printBoard() {
         char symbol;
+
         for (ArrayList<CellType> row : board) {
             for (CellType cell : row) {
                 if (cell == CellType.ALIVE) symbol = 'A';
@@ -105,6 +109,7 @@ public class GameManager {
 
             System.out.println("Press enter to continue; type anything to quit.");
             input = reader.nextLine();
+            System.out.println();
             if (!input.isEmpty()) next = false;
         }
 
